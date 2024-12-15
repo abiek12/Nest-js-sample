@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private userServices: UserService) {}
+
   @Post()
   createUsers(@Body() userDto: any): string {
     this.userServices.createUsers(userDto);
@@ -21,7 +22,7 @@ export class UserController {
 
   @Get()
   gerAllUsers(@Query() searchFilters: any): any {
-    const users = this.userServices.gerAllUsers(searchFilters);
+    const users = this.userServices.getAllUsers(searchFilters);
     console.log(users);
     return users;
   }

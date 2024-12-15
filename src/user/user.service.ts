@@ -12,7 +12,7 @@ export class UserService {
     }
   }
 
-  gerAllUsers(searchFilters: any) {
+  getAllUsers(searchFilters: any) {
     try {
       console.log('get all users');
       console.log(searchFilters);
