@@ -9,38 +9,40 @@ import {
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserFilterDto } from './dto/filter-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private userServices: UserService) {}
 
   @Post()
-  createUsers(@Body() userDto: any): string {
-    this.userServices.createUsers(userDto);
+  createUsers(@Body() userData: CreateUserDto): string {
+    this.userServices.createUsers(userData);
     return 'User created';
   }
 
   @Get()
-  gerAllUsers(@Query() searchFilters: any): any {
+  gerAllUsers(@Query() searchFilters: UserFilterDto): any {
     const users = this.userServices.getAllUsers(searchFilters);
     console.log(users);
     return users;
   }
 
   @Get(':id')
-  getUserProfile(@Param('id') id: string): any {
+  getUserProfile(@Param('id') id: number): any {
     const userProfile = this.userServices.getUserProfile(id);
     return userProfile;
   }
 
   @Patch(':id')
-  updateUser(@Param('id') id: string, @Body() updateDto: any): string {
-    this.userServices.updateUser(id, updateDto);
+  updateUser(@Param('id') id: string, @Body() userData: CreateUserDto): string {
+    this.userServices.updateUser(id, userData);
     return `User update: ${id}`;
   }
 
   @Delete('id')
-  deleteUser(@Param('id') id: string): string {
+  deleteUser(@Param('id') id: number): string {
     this.userServices.deleteUser(id);
     return `User deleted: ${id}`;
   }

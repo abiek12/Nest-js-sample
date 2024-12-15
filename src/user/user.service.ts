@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { IUser } from './interfaces/user.interface';
 
 @Injectable()
 export class UserService {
-  createUsers(userDetails: any) {
+  createUsers(userDetails: any): IUser {
     try {
       console.log('create user');
       console.log(userDetails);
@@ -12,7 +13,7 @@ export class UserService {
     }
   }
 
-  getAllUsers(searchFilters: any) {
+  getAllUsers(searchFilters: any): IUser[] {
     try {
       console.log('get all users');
       console.log(searchFilters);
@@ -20,6 +21,9 @@ export class UserService {
       user.push({
         id: 1,
         name: 'abhi',
+        password: 'pass@123',
+        phone: '9207363637',
+        gender: 'Male',
       });
       return user;
     } catch (error) {
@@ -27,12 +31,15 @@ export class UserService {
     }
   }
 
-  getUserProfile(userId: string) {
+  getUserProfile(userId: number): IUser {
     try {
       console.log('get user profile');
       const user = {
         id: userId,
         name: 'abhi',
+        password: 'pass@123',
+        phone: '9207363637',
+        gender: 'Male',
       };
       return user;
     } catch (error) {
@@ -52,7 +59,7 @@ export class UserService {
     }
   }
 
-  deleteUser(userId: string) {
+  deleteUser(userId: number) {
     try {
       console.log('Delete user');
       console.log(userId);
