@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { IUser } from './interfaces/user.interface';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class UserService {
       console.log(userDetails);
       return userDetails;
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -27,7 +27,7 @@ export class UserService {
       });
       return user;
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -43,7 +43,7 @@ export class UserService {
       };
       return user;
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -55,7 +55,7 @@ export class UserService {
         updateData,
       });
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -64,7 +64,7 @@ export class UserService {
       console.log('Delete user');
       console.log(userId);
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 }
