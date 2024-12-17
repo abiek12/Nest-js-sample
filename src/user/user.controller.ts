@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -25,6 +27,9 @@ export class UserController {
   @Get()
   gerAllUsers(@Query() searchFilters: UserFilterDto): any {
     const users = this.userServices.getAllUsers(searchFilters);
+    if (!users) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
     console.log(users);
     return users;
   }
