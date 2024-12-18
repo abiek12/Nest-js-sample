@@ -5,7 +5,7 @@ import { IUser } from './interfaces/user.interface';
 export class UserService {
   createUsers(userDetails: any): IUser {
     try {
-      console.log('create user');
+      console.log('create user handler');
       console.log(userDetails);
       return userDetails;
     } catch (error) {
