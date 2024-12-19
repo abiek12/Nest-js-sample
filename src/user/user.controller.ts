@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -35,19 +36,22 @@ export class UserController {
   }
 
   @Get(':id')
-  getUserProfile(@Param('id') id: number): any {
+  getUserProfile(@Param('id', ParseIntPipe) id: number): any {
     const userProfile = this.userServices.getUserProfile(id);
     return userProfile;
   }
 
   @Patch(':id')
-  updateUser(@Param('id') id: string, @Body() userData: CreateUserDto): string {
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() userData: CreateUserDto,
+  ): string {
     this.userServices.updateUser(id, userData);
     return `User update: ${id}`;
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: number): string {
+  deleteUser(@Param('id', ParseIntPipe) id: number): string {
     this.userServices.deleteUser(id);
     return `User deleted: ${id}`;
   }

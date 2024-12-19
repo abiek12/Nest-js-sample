@@ -47,7 +47,7 @@ export class UserService {
     }
   }
 
-  updateUser(userId: string, updateData: any) {
+  updateUser(userId: number, updateData: any) {
     try {
       console.log('user update');
       console.log({
