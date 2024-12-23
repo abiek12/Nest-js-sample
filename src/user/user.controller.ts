@@ -10,23 +10,27 @@ import {
   Patch,
   Post,
   Query,
+  UsePipes,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserFilterDto } from './dto/filter-user.dto';
+import { UserPipe } from './validation/validation.pipe';
+import { CreateUserSchema } from './types/user.type';
 
 @Controller('user')
 export class UserController {
   constructor(private userServices: UserService) {}
 
   @Post()
-  createUsers(@Body() userData: CreateUserDto): string {
+  @UsePipes(new UserPipe(CreateUserSchema))
+  async createUsers(@Body() userData: CreateUserDto): Promise<string> {
     this.userServices.createUsers(userData);
     return 'User created';
   }
 
   @Get()
-  gerAllUsers(@Query() searchFilters: UserFilterDto): any {
+  getAllUsers(@Query() searchFilters: UserFilterDto): any {
     const users = this.userServices.getAllUsers(searchFilters);
     if (!users) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
