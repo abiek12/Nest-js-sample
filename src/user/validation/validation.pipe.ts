@@ -11,6 +11,7 @@ export class UserPipe implements PipeTransform {
   constructor(private schema: ZodSchema) {}
   transform(value: any, metadata: ArgumentMetadata) {
     try {
+      console.log(value);
       const parsedValue = this.schema.parse(value);
       return parsedValue;
     } catch (error) {
