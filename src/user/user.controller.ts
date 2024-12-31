@@ -25,7 +25,6 @@ export class UserController {
   constructor(private userServices: UserService) {}
 
   @Post()
-  @UseGuards(RoleGuard)
   @UsePipes(new UserPipe(CreateUserSchema))
   async createUsers(@Body() userData: CreateUserDto): Promise<string> {
     this.userServices.createUsers(userData);
@@ -44,14 +43,12 @@ export class UserController {
   }
 
   @Get(':id')
-  @UseGuards(RoleGuard)
   getUserProfile(@Param('id', ParseIntPipe) id: number): any {
     const userProfile = this.userServices.getUserProfile(id);
     return userProfile;
   }
 
   @Patch(':id')
-  @UseGuards(RoleGuard)
   updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() userData: CreateUserDto,
@@ -61,7 +58,6 @@ export class UserController {
   }
 
   @Delete(':id')
-  @UseGuards(RoleGuard)
   deleteUser(@Param('id', ParseIntPipe) id: number): string {
     this.userServices.deleteUser(id);
     return `User deleted: ${id}`;
