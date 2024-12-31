@@ -15,8 +15,8 @@ export class UserService {
 
   getAllUsers(searchFilters: any): IUser[] {
     try {
-      console.log('get all users');
-      console.log(searchFilters);
+      console.log('get all users service');
+      if (searchFilters) console.log(searchFilters);
       const user = [];
       user.push({
         id: 1,
