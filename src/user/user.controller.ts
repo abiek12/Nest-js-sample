@@ -32,7 +32,7 @@ export class UserController {
   }
 
   @Get()
-  @UseGuards(RoleGuard)
+  // @UseGuards(RoleGuard)
   getAllUsers(@Query() searchFilters: UserFilterDto): any {
     const users = this.userServices.getAllUsers(searchFilters);
     if (!users) {
