@@ -6,7 +6,12 @@ export class RoleGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    console.log(context);
-    return true;
+    const request = context.switchToHttp().getRequest();
+    const authHeader = request.header.autherization;
+    console.log(authHeader);
+    if (authHeader === 'nestjsIsGreat') {
+      return true;
+    }
+    return false;
   }
 }

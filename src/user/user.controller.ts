@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -17,12 +18,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserFilterDto } from './dto/filter-user.dto';
 import { UserPipe } from './validation/validation.pipe';
 import { CreateUserSchema } from './types/user.type';
+import { RoleGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private userServices: UserService) {}
 
   @Post()
+  @UseGuards(RoleGuard)
   @UsePipes(new UserPipe(CreateUserSchema))
   async createUsers(@Body() userData: CreateUserDto): Promise<string> {
     this.userServices.createUsers(userData);
@@ -30,6 +33,7 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(RoleGuard)
   getAllUsers(@Query() searchFilters: UserFilterDto): any {
     const users = this.userServices.getAllUsers(searchFilters);
     if (!users) {
@@ -40,12 +44,14 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(RoleGuard)
   getUserProfile(@Param('id', ParseIntPipe) id: number): any {
     const userProfile = this.userServices.getUserProfile(id);
     return userProfile;
   }
 
   @Patch(':id')
+  @UseGuards(RoleGuard)
   updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() userData: CreateUserDto,
@@ -55,6 +61,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(RoleGuard)
   deleteUser(@Param('id', ParseIntPipe) id: number): string {
     this.userServices.deleteUser(id);
     return `User deleted: ${id}`;
