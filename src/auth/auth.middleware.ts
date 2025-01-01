@@ -5,7 +5,8 @@ export class AuthMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
     console.log('Passed through middleware');
     const user = {
-      userId: 1,
+      id: 1,
+      username: 'test_user',
       roles: ['admin'],
     };
 

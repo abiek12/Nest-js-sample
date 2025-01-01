@@ -47,6 +47,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @Roles('admin')
   getUserProfile(@Param('id', ParseIntPipe) id: number): any {
     const userProfile = this.userServices.getUserProfile(id);
     return userProfile;
