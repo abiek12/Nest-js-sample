@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Request } from 'express';
 
 @Injectable()
-export class RoleGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

@@ -18,7 +18,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserFilterDto } from './dto/filter-user.dto';
 import { UserPipe } from './validation/validation.pipe';
 import { CreateUserSchema } from './types/user.type';
-import { RoleGuard } from 'src/auth/guards/auth.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +32,7 @@ export class UserController {
   }
 
   @Get()
-  // @UseGuards(RoleGuard)
+  // @UseGuards(AuthGuard)
   getAllUsers(@Query() searchFilters: UserFilterDto): any {
     const users = this.userServices.getAllUsers(searchFilters);
     if (!users) {

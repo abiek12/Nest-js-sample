@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { APP_GUARD } from '@nestjs/core';
-import { RoleGuard } from 'src/auth/guards/auth.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Module({
   controllers: [UserController],
@@ -10,7 +10,7 @@ import { RoleGuard } from 'src/auth/guards/auth.guard';
     UserService,
     {
       provide: APP_GUARD,
-      useClass: RoleGuard,
+      useClass: AuthGuard,
     },
   ],
   exports: [UserService],

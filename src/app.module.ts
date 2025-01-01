@@ -9,7 +9,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { APP_GUARD } from '@nestjs/core';
-import { RoleGuard } from './auth/guards/auth.guard';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 @Module({
   imports: [UserModule],
@@ -18,7 +18,7 @@ import { RoleGuard } from './auth/guards/auth.guard';
     AppService,
     // {
     //   provide: APP_GUARD,
-    //   useClass: RoleGuard,
+    //   useClass: AuthGuard,
     // },
   ],
 })
