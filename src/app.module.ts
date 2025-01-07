@@ -11,9 +11,10 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { AuthMiddleware } from './auth/middlewares/auth.middleware';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule],
+  imports: [ConfigModule.forRoot(), UserModule],
   controllers: [AppController],
   providers: [
     AppService,
