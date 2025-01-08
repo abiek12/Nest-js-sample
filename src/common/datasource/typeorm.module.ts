@@ -1,5 +1,6 @@
 import { Global, Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { User } from 'src/user/entities/user.entity';
 import { DataSource } from 'typeorm';
 
 @Global() // makes the module available globally for other modules once imported in the app modules
@@ -21,7 +22,7 @@ import { DataSource } from 'typeorm';
             password: configService.get<string>('DB_PASSWORD'),
             database: configService.get<string>('DB_NAME'),
             synchronize: true,
-            entities: [`${__dirname}/../**/**.entity{.ts,.js}`], // this will automatically load all entity file in the src folder
+            entities: [User], // this will automatically load all entity file in the src folder
           });
           await datasource.initialize();
           logger.log('Database connected successfully');
