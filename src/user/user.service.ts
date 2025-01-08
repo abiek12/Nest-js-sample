@@ -36,20 +36,22 @@ export class UserService {
         throw new BadRequestException('User password is missing!');
       }
 
-      const existingUser = await this.userQueryBuilder 
-        .where("user.phone = :phone", {phone: userDetails.phone})
+      const existingUser = await this.userQueryBuilder
+        .where('user.phone = :phone', { phone: userDetails.phone })
         .getOne();
-      
-      if(existingUser) {
-        this.logger.error("User with the same phone number already exist!");
-        throw new BadRequestException("User with the same phone number already exist!")
+
+      if (existingUser) {
+        this.logger.error('User with the same phone number already exist!');
+        throw new BadRequestException(
+          'User with the same phone number already exist!',
+        );
       }
 
       const newUserEntity = new User();
       newUserEntity.name = userDetails.name;
       newUserEntity.gender = userDetails.gender;
       newUserEntity.password = userDetails.password;
-      newUserEntity.phone = userDetails.password;
+      newUserEntity.phone = userDetails.phone;
 
       return await this.userRepository.save(newUserEntity);
     } catch (error) {
