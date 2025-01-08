@@ -39,6 +39,7 @@ export class UserService {
 
       return await this.userRepository.save(newUserEntity);
     } catch (error) {
+      this.logger.error(error);
       throw new InternalServerErrorException(error);
     }
   }
