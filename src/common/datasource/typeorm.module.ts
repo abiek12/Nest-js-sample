@@ -22,7 +22,10 @@ import { DataSource } from 'typeorm';
                         database: configService.get<string>('DB_NAME'),
                         synchronize: false,
                         entities: [`${__dirname}/../**/**.entity{.ts,.js}`], // this will automatically load all entity file in the src folder
-                    })
+                    });
+                    await datasource.initialize();
+                    logger.log("Database connected successfully");
+                    return datasource;
                 } catch (error) {
                     logger.error("Error connecting to database", error);
                     throw error;
