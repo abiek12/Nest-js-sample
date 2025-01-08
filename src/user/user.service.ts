@@ -1,13 +1,43 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { IUser } from './interfaces/user.interface';
+import { DataSource } from 'typeorm';
+import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
-  createUsers(userDetails: any): IUser {
+  private userRepository;
+  private userQueryBuilder;
+  private logger = new Logger();
+  constructor ( private datassource: DataSource) {
+    this.userRepository = this.datassource.getRepository(User);
+    this.userQueryBuilder = this.userRepository.createQueryBuilder("user");
+  }
+
+  createUsers = async (userDetails: CreateUserDto): Promise<any>  => {
     try {
-      console.log('create user handler');
-      console.log(userDetails);
-      return userDetails;
+      if(!userDetails.name) {
+        this.logger.error("User name is missing!");
+        throw new BadRequestException(400, 'User name is missing!')
+      }
+      
+      if(!userDetails.phone) {
+        this.logger.error("User's phone is missing!");
+        throw new BadRequestException(400, "User's phone is missing!");
+      }
+
+      if(!userDetails.password) {
+        this.logger.error("User password is missing!");
+        throw new BadRequestException(400, 'User password is missing!')
+      }
+
+      const newUserEntity = new User();
+      newUserEntity.name = userDetails.name;
+      newUserEntity.gender = userDetails.gender;
+      newUserEntity.password = userDetails.password;
+      newUserEntity.phone = userDetails.password;
+
+      return await this.userRepository.save(newUserEntity);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
