@@ -12,9 +12,10 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { AuthMiddleware } from './auth/middlewares/auth.middleware';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { ConfigModule } from '@nestjs/config';
+import { TypeormModule } from './common/datasource/typeorm.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule],
+  imports: [ConfigModule.forRoot(), UserModule, TypeormModule],
   controllers: [AppController],
   providers: [
     AppService,
