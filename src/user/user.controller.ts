@@ -30,8 +30,7 @@ export class UserController {
   @Post()
   @UsePipes(new UserPipe(CreateUserSchema))
   async createUsers(@Body() userData: CreateUserDto): Promise<string> {
-    this.userServices.createUsers(userData);
-    return 'User created';
+    return this.userServices.createUsers(userData);
   }
 
   @Get()

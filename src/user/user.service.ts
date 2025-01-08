@@ -23,17 +23,26 @@ export class UserService {
     try {
       if (!userDetails.name) {
         this.logger.error('User name is missing!');
-        throw new BadRequestException(400, 'User name is missing!');
+        throw new BadRequestException('User name is missing!');
       }
 
       if (!userDetails.phone) {
         this.logger.error("User's phone is missing!");
-        throw new BadRequestException(400, "User's phone is missing!");
+        throw new BadRequestException("User's phone is missing!");
       }
 
       if (!userDetails.password) {
         this.logger.error('User password is missing!');
-        throw new BadRequestException(400, 'User password is missing!');
+        throw new BadRequestException('User password is missing!');
+      }
+
+      const existingUser = await this.userQueryBuilder 
+        .where("user.phone = :phone", {phone: userDetails.phone})
+        .getOne();
+      
+      if(existingUser) {
+        this.logger.error("User with the same phone number already exist!");
+        throw new BadRequestException("User with the same phone number already exist!")
       }
 
       const newUserEntity = new User();
