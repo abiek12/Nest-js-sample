@@ -20,7 +20,7 @@ import { DataSource } from 'typeorm';
             username: configService.get<string>('DB_USER'),
             password: configService.get<string>('DB_PASSWORD'),
             database: configService.get<string>('DB_NAME'),
-            synchronize: false,
+            synchronize: true,
             entities: [`${__dirname}/../**/**.entity{.ts,.js}`], // this will automatically load all entity file in the src folder
           });
           await datasource.initialize();
