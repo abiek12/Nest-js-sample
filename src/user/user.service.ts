@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { IUser } from './interfaces/user.interface';
 import { DataSource } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -9,26 +14,26 @@ export class UserService {
   private userRepository;
   private userQueryBuilder;
   private logger = new Logger();
-  constructor ( private datassource: DataSource) {
+  constructor(private datassource: DataSource) {
     this.userRepository = this.datassource.getRepository(User);
-    this.userQueryBuilder = this.userRepository.createQueryBuilder("user");
+    this.userQueryBuilder = this.userRepository.createQueryBuilder('user');
   }
 
-  createUsers = async (userDetails: CreateUserDto): Promise<any>  => {
+  createUsers = async (userDetails: CreateUserDto): Promise<any> => {
     try {
-      if(!userDetails.name) {
-        this.logger.error("User name is missing!");
-        throw new BadRequestException(400, 'User name is missing!')
+      if (!userDetails.name) {
+        this.logger.error('User name is missing!');
+        throw new BadRequestException(400, 'User name is missing!');
       }
-      
-      if(!userDetails.phone) {
+
+      if (!userDetails.phone) {
         this.logger.error("User's phone is missing!");
         throw new BadRequestException(400, "User's phone is missing!");
       }
 
-      if(!userDetails.password) {
-        this.logger.error("User password is missing!");
-        throw new BadRequestException(400, 'User password is missing!')
+      if (!userDetails.password) {
+        this.logger.error('User password is missing!');
+        throw new BadRequestException(400, 'User password is missing!');
       }
 
       const newUserEntity = new User();
@@ -42,7 +47,7 @@ export class UserService {
       this.logger.error(error);
       throw new InternalServerErrorException(error);
     }
-  }
+  };
 
   getAllUsers(searchFilters: any): IUser[] {
     try {
