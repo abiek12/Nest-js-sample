@@ -12,14 +12,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 @Injectable()
 export class UserService {
   private readonly userRepository = this.datassource.getRepository(User);
-  private readonly userQueryBuilder = this.userRepository.createQueryBuilder('user');
+  private readonly userQueryBuilder =
+    this.userRepository.createQueryBuilder('user');
   private readonly logger = new Logger(UserService.name);
   constructor(private datassource: DataSource) {}
 
   createUsers = async (userDetails: CreateUserDto): Promise<User> => {
     try {
       if (!userDetails.name || !userDetails.phone || !userDetails.password) {
-        const missingFields = (['name', 'phone', 'password'] as (keyof CreateUserDto)[]).filter(field => !userDetails[field]);
+        const missingFields = (
+          ['name', 'phone', 'password'] as (keyof CreateUserDto)[]
+        ).filter((field) => !userDetails[field]);
         const errorMessage = `Missing fields: ${missingFields.join(', ')}`;
         this.logger.error(errorMessage);
         throw new BadRequestException(errorMessage);
@@ -42,7 +45,7 @@ export class UserService {
       newUserEntity.password = userDetails.password;
       newUserEntity.phone = userDetails.phone;
 
-      this.logger.log("`User created successfully");
+      this.logger.log('`User created successfully');
       return await this.userRepository.save(newUserEntity);
     } catch (error) {
       this.logger.error(error);
