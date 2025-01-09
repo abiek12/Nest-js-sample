@@ -18,7 +18,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserFilterDto } from './dto/filter-user.dto';
 import { UserPipe } from './validation/validation.pipe';
 import { CreateUserSchema } from './types/user.type';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { User } from './entities/user.entity';
@@ -29,7 +28,7 @@ export class UserController {
   constructor(private userServices: UserService) {}
 
   @Post()
-  @UsePipes(new UserPipe(CreateUserSchema))
+  // @UsePipes(new UserPipe(CreateUserSchema))
   async createUsers(@Body() userData: CreateUserDto): Promise<User> {
     return this.userServices.createUsers(userData);
   }
