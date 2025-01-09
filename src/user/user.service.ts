@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -8,6 +9,7 @@ import { IUser } from './interfaces/user.interface';
 import { DataSource } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { errorResponse, successResponse } from 'src/utils/response.utils';
 
 @Injectable()
 export class UserService {
@@ -17,7 +19,7 @@ export class UserService {
   private readonly logger = new Logger(UserService.name);
   constructor(private datassource: DataSource) {}
 
-  createUsers = async (userDetails: CreateUserDto): Promise<User> => {
+  createUsers = async (userDetails: CreateUserDto): Promise<any> => {
     try {
       if (!userDetails.name || !userDetails.phone || !userDetails.password) {
         const missingFields = (
@@ -25,7 +27,8 @@ export class UserService {
         ).filter((field) => !userDetails[field]);
         const errorMessage = `Missing fields: ${missingFields.join(', ')}`;
         this.logger.error(errorMessage);
-        throw new BadRequestException(errorMessage);
+        // throw new BadRequestException(errorMessage);
+        throw errorResponse(HttpStatus.BAD_REQUEST, errorMessage);
       }
 
       const existingUser = await this.userQueryBuilder
@@ -34,7 +37,8 @@ export class UserService {
 
       if (existingUser) {
         this.logger.error('User with the same phone number already exist!');
-        throw new BadRequestException(
+        throw errorResponse(
+          HttpStatus.CONFLICT,
           'User with the same phone number already exist!',
         );
       }
@@ -45,8 +49,14 @@ export class UserService {
       newUserEntity.password = userDetails.password;
       newUserEntity.phone = userDetails.phone;
 
-      this.logger.log('`User created successfully');
-      return await this.userRepository.save(newUserEntity);
+      this.logger.log('User created successfully');
+      const res = await this.userRepository.save(newUserEntity);
+
+      return successResponse(
+        HttpStatus.CREATED,
+        res,
+        'User created successfully',
+      );
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException(error);
