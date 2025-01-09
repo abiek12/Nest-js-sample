@@ -13,7 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserService {
   private readonly userRepository = this.datassource.getRepository(User);
   private readonly userQueryBuilder = this.userRepository.createQueryBuilder('user');
-  private logger = new Logger(UserService.name);
+  private readonly logger = new Logger(UserService.name);
   constructor(private datassource: DataSource) {}
 
   createUsers = async (userDetails: CreateUserDto): Promise<User> => {
