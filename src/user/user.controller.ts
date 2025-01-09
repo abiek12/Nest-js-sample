@@ -21,6 +21,7 @@ import { CreateUserSchema } from './types/user.type';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { User } from './entities/user.entity';
 
 @Controller('user')
 @UseGuards(RoleGuard)
@@ -29,7 +30,7 @@ export class UserController {
 
   @Post()
   @UsePipes(new UserPipe(CreateUserSchema))
-  async createUsers(@Body() userData: CreateUserDto): Promise<string> {
+  async createUsers(@Body() userData: CreateUserDto): Promise<User> {
     return this.userServices.createUsers(userData);
   }
 

@@ -11,29 +11,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
-  private userRepository;
-  private userQueryBuilder;
-  private logger = new Logger();
-  constructor(private datassource: DataSource) {
-    this.userRepository = this.datassource.getRepository(User);
-    this.userQueryBuilder = this.userRepository.createQueryBuilder('user');
-  }
+  private readonly userRepository = this.datassource.getRepository(User);
+  private readonly userQueryBuilder = this.userRepository.createQueryBuilder('user');
+  private logger = new Logger(UserService.name);
+  constructor(private datassource: DataSource) {}
 
-  createUsers = async (userDetails: CreateUserDto): Promise<any> => {
+  createUsers = async (userDetails: CreateUserDto): Promise<User> => {
     try {
-      if (!userDetails.name) {
-        this.logger.error('User name is missing!');
-        throw new BadRequestException('User name is missing!');
-      }
-
-      if (!userDetails.phone) {
-        this.logger.error("User's phone is missing!");
-        throw new BadRequestException("User's phone is missing!");
-      }
-
-      if (!userDetails.password) {
-        this.logger.error('User password is missing!');
-        throw new BadRequestException('User password is missing!');
+      if (!userDetails.name || !userDetails.phone || !userDetails.password) {
+        const missingFields = (['name', 'phone', 'password'] as (keyof CreateUserDto)[]).filter(field => !userDetails[field]);
+        const errorMessage = `Missing fields: ${missingFields.join(', ')}`;
+        this.logger.error(errorMessage);
+        throw new BadRequestException(errorMessage);
       }
 
       const existingUser = await this.userQueryBuilder
@@ -53,6 +42,7 @@ export class UserService {
       newUserEntity.password = userDetails.password;
       newUserEntity.phone = userDetails.phone;
 
+      this.logger.log("`User created successfully");
       return await this.userRepository.save(newUserEntity);
     } catch (error) {
       this.logger.error(error);
