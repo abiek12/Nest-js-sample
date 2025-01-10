@@ -13,11 +13,14 @@ import { errorResponse, successResponse } from 'src/utils/response.utils';
 
 @Injectable()
 export class UserService {
-  private readonly userRepository = this.datassource.getRepository(User);
-  private readonly userQueryBuilder =
-    this.userRepository.createQueryBuilder('user');
+  private userRepository;
+  private userQueryBuilder;
   private readonly logger = new Logger(UserService.name);
-  constructor(private datassource: DataSource) {}
+
+  constructor(private datasource: DataSource) {
+    this.userRepository = this.datasource.getRepository(User);
+    this.userQueryBuilder = this.userRepository.createQueryBuilder('user');
+  }
 
   createUsers = async (userDetails: CreateUserDto): Promise<any> => {
     try {
