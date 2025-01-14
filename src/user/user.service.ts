@@ -66,19 +66,11 @@ export class UserService {
     }
   };
 
-  getAllUsers(searchFilters: any): IUser[] {
+  async getAllUsers(searchFilters: any): Promise<any> {
     try {
-      console.log('get all users service');
-      if (searchFilters) console.log(searchFilters);
-      const user = [];
-      user.push({
-        id: 1,
-        name: 'abhi',
-        password: 'pass@123',
-        phone: '9207363637',
-        gender: 'Male',
-      });
-      return user;
+      const users = await this.userQueryBuilder.getMany();
+      const count = await this.userQueryBuilder.getCount();
+      return successResponse(HttpStatus.OK,{metaData: {count}, users})
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
