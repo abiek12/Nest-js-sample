@@ -18,8 +18,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserFilterDto } from './dto/filter-user.dto';
 import { UserPipe } from './validation/validation.pipe';
 import { CreateUserSchema } from './types/user.type';
-import { RoleGuard } from 'src/auth/guards/role.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RoleGuard } from '../auth/guards/role.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { User } from './entities/user.entity';
 
 @Controller('user')

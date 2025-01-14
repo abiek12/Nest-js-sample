@@ -9,7 +9,7 @@ import { IUser } from './interfaces/user.interface';
 import { DataSource } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { errorResponse, successResponse } from 'src/utils/response.utils';
+import { errorResponse, successResponse } from '../utils/response.utils';
 
 @Injectable()
 export class UserService {
