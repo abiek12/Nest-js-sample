@@ -16,8 +16,6 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserFilterDto } from './dto/filter-user.dto';
-import { UserPipe } from './validation/validation.pipe';
-import { CreateUserSchema } from './types/user.type';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { User } from './entities/user.entity';
@@ -37,12 +35,7 @@ export class UserController {
   // @UseGuards(AuthGuard)
   @Roles('admin')
   getAllUsers(@Query() searchFilters: UserFilterDto): any {
-    const users = this.userServices.getAllUsers(searchFilters);
-    if (!users) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    }
-    console.log(users);
-    return users;
+    return this.userServices.getAllUsers(searchFilters);
   }
 
   @Get(':id')
